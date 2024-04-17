@@ -5,6 +5,7 @@ sealed class NavRoute(val path: String) {
     object Login: NavRoute("login")
 
     object Home: NavRoute("home")
+    object Redirect: NavRoute("redirect")
 
     object Profile: NavRoute("profile") {
         val id = "id"

@@ -15,16 +15,16 @@ import com.example.simplenavigationcompose.ui.theme.SimpleNavComposeAppTheme
 
 @Composable
 fun LoginScreen(
-    navigateToHome: () -> Unit
+    navigateToRedirect: () -> Unit
 ) {
     Column (
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("Login Screen", fontSize = 40.sp)
+        Text("Redirect Screen", fontSize = 40.sp)
 
         DefaultButton(
             text = "Log In",
-            onClick = navigateToHome
+            onClick = navigateToRedirect
         )
     }
 }
@@ -38,7 +38,7 @@ private fun DefaultPreview() {
             color = MaterialTheme.colors.background
         ) {
             LoginScreen(
-                navigateToHome = {}
+                navigateToRedirect = {}
             )
         }
     }

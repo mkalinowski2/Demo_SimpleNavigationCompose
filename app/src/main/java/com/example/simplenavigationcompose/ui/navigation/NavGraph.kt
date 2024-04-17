@@ -1,5 +1,7 @@
 package com.example.simplenavigationcompose.ui.navigation
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,6 +12,7 @@ import androidx.navigation.navArgument
 import com.example.simplenavigationcompose.ui.screens.HomeScreen
 import com.example.simplenavigationcompose.ui.screens.LoginScreen
 import com.example.simplenavigationcompose.ui.screens.ProfileScreen
+import com.example.simplenavigationcompose.ui.screens.RedirectToBrowserScreen
 import com.example.simplenavigationcompose.ui.screens.SearchScreen
 
 @Composable
@@ -26,6 +29,8 @@ fun NavGraph(navController: NavHostController) {
         addProfileScreen(navController, this)
 
         addSearchScreen(navController, this)
+
+        addRedirectScreen(navController, this)
     }
 }
 
@@ -35,8 +40,8 @@ private fun addLoginScreen(
 ) {
     navGraphBuilder.composable(route = NavRoute.Login.path) {
         LoginScreen(
-            navigateToHome = {
-                navController.navigate(NavRoute.Home.path)
+            navigateToRedirect = {
+                navController.navigate(NavRoute.Redirect.path)
             }
         )
     }
@@ -56,7 +61,27 @@ private fun addHomeScreen(
                 navController.navigate(NavRoute.Search.withArgs(query))
             },
             popBackStack = { navController.popBackStack() },
-            popUpToLogin= { popUpToLogin(navController) },
+            popUpToLogin = { popUpToLogin(navController) },
+        )
+    }
+}
+
+private fun addRedirectScreen(
+    navController: NavHostController,
+    navGraphBuilder: NavGraphBuilder
+) {
+    navGraphBuilder.composable(route = NavRoute.Redirect.path) {
+
+        RedirectToBrowserScreen(
+            redirectToBrowser = {
+                navController.context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://google.com/")
+                    )
+                )
+            },
+            popBackStack = { navController.popBackStack() }
         )
     }
 }
@@ -74,8 +99,7 @@ private fun addProfileScreen(
         arguments = listOf(
             navArgument(NavRoute.Profile.id) {
                 type = NavType.IntType
-            }
-            ,
+            },
             navArgument(NavRoute.Profile.showDetails) {
                 type = NavType.BoolType
             }
